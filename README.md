@@ -169,3 +169,15 @@ You are free to use, modify, and redistribute this software under the same licen
 
 Pull requests, issues, suggestions and improvements are welcome.
 If you'd like to extend this tool to other CLI apps, feel free to fork and adapt.
+
+---
+
+## ⚠️ Disclaimer
+
+This script is intended for users running `nexus-cli start` inside a `screen` session named `nexus`.  
+If your setup is different, the script **may not function as expected**.
+
+Use this tool at your own risk.  
+No warranties or guarantees are provided.  
+Please review the code before running it on production systems.
+
