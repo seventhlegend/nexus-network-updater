@@ -3,6 +3,7 @@ Description=Nexus CLI Auto Updater
 After=network.target
 
 [Service]
+Environment="PATH=/root/.nexus/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 ExecStart=/usr/bin/env python3 /opt/nexus-updater/nexus_updater.py
 StandardOutput=append:/opt/nexus-updater/systemd.log
 StandardError=append:/opt/nexus-updater/systemd.err
