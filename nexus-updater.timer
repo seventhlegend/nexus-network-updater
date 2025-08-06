@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Nexus Updater every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
