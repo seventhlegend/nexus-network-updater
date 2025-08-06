@@ -2,7 +2,7 @@
 
 set -e
 
-REPO_URL="https://github.com/YOUR_USERNAME/nexus-updater.git"
+REPO_URL="https://github.com/seventhlegend/nexus-network-updater.git"
 INSTALL_DIR="/opt/nexus-updater"
 SERVICE_NAME="nexus-updater"
 
