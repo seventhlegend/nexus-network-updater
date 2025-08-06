@@ -16,6 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import os
 import subprocess
 import time
@@ -27,7 +28,10 @@ RELEASES_URL = "https://api.github.com/repos/nexus-xyz/nexus-cli/releases/latest
 LOG_FILE = "/opt/nexus-updater/error.log"
 SCREEN_NAME = "nexus"
 
-# Logger: only log WARNING and ERROR
+# Add known binary path for nexus-cli
+os.environ["PATH"] += os.pathsep + "/root/.nexus/bin"
+
+# Logger: only log WARNING and above
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 logging.basicConfig(
     filename=LOG_FILE,
@@ -42,17 +46,22 @@ def get_latest_version():
         res.raise_for_status()
         return res.json()["tag_name"].lstrip("v")
     except Exception as e:
-        logging.error(f"GitHub API error: {e}")
+        logging.critical(f"GitHub API error: {e}")
         raise
 
 
 def get_installed_version():
+    nexus_path = shutil.which("nexus-cli")
+    if not nexus_path:
+        logging.critical("❌ 'nexus-cli' binary not found in PATH. Aborting.")
+        raise RuntimeError("nexus-cli not found")
+
     try:
-        result = subprocess.run(["nexus-cli", "-V"], capture_output=True, text=True, check=True)
+        result = subprocess.run([nexus_path, "-V"], capture_output=True, text=True, check=True)
         return result.stdout.strip().split()[-1]
     except Exception as e:
-        logging.warning(f"Could not determine installed version: {e}")
-        return None
+        logging.critical(f"❌ Failed to get installed version: {e}")
+        raise
 
 
 def kill_all_nexus_screens():
@@ -95,14 +104,14 @@ def main():
         current = get_installed_version()
 
         if latest == current:
-            return  # No update needed
+            return  # Already up to date
 
         kill_all_nexus_screens()
         install_cli()
         start_fresh_nexus_screen()
 
     except Exception as e:
-        logging.error(f"Update process failed: {e}")
+        logging.critical(f"❌ Update process failed: {e}")
 
 
 if __name__ == "__main__":
