@@ -22,6 +22,7 @@ import subprocess
 import time
 import logging
 import requests
+import shutil
 
 # Config
 RELEASES_URL = "https://api.github.com/repos/nexus-xyz/nexus-cli/releases/latest"
