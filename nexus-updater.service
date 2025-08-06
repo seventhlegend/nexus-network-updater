@@ -1,0 +1,9 @@
+[Unit]
+Description=Nexus CLI Auto Updater
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/env python3 /opt/nexus-updater/nexus_updater.py
+StandardOutput=append:/opt/nexus-updater/systemd.log
+StandardError=append:/opt/nexus-updater/systemd.err
+Restart=no
